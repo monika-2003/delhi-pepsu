@@ -234,9 +234,9 @@ function BiltyReport({ sessionObject }) {
           // In_stock == 1 means all and 2 means in_stock
           if (dateObject.in_stock == "1" && dateObject.all_branch=="N") {
             
-            newObject.not_created_from = String(
-                sessionObject.sessionVariables.branch_id
-            );
+            // newObject.not_created_from = String(
+            //     sessionObject.sessionVariables.branch_id
+            // );
             newObject.owned_by = String(
               sessionObject.sessionVariables.branch_id
             )            
