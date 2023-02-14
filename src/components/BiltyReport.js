@@ -243,10 +243,9 @@ function BiltyReport({ sessionObject }) {
           }
           else if (dateObject.in_stock == "2" && dateObject.all_branch=="N") {
             
-            newObject.not_created_from = String(
-                sessionObject.sessionVariables.branch_id
-            ); 
-            
+            // newObject.not_created_from = String(
+            //     sessionObject.sessionVariables.branch_id
+            // );
             newObject.owned_by = String(
               sessionObject.sessionVariables.branch_id
             )       
