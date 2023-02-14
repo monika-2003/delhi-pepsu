@@ -288,7 +288,7 @@ const dataObject = {
   suffix_options: [],
   fyearList: [],
   fyear_get_bilty: "",
-  consider_cwgt: false,
+  consider_cwgt: '0',
   crossing_less_wgt_by_pkg: "",
   crossing_total_less_wgt: "",
   crossing_bulky_goods_package: "",

@@ -65,7 +65,6 @@ console.log("SESSION",sessionObject);
     if(myForm.pageState.consider_cwgt){
         setCrossingChecked(myForm.pageState.consider_cwgt);
     }
-    console.log("CROSSING-+",myForm.pageState["consider_cwgt"]);
   },[])
 
   const handleChangeCheckbox = () => {
@@ -194,7 +193,7 @@ localStorage.removeItem("r");
     if (e.key == "Enter") {
       if (myForm.pageState["transporter_name"] == "") {
       } else {
-        myForm.makeFocusOnParticularField("bilty_type");
+        myForm.makeFocusOnParticularField("consider_cwgt");
       }
     }
   };
@@ -646,7 +645,7 @@ localStorage.removeItem("r");
     // dispatch(clearChallan())
     // if(myForm.pageState.vehicle_no!=undefined || myForm.pageState.vehicle_no!=""){
 
-      const url = SERVER_URL + `/bilty/crossing_outward_in/0?branch_id=${sessionObject.sessionVariables.branch_id}&flag=0&multiple_bilty=1&c_wgt_flag=0&transporter_id=${myForm.pageState.transporter_id}&fyear=${variablesFromSession.fYear}&companyId=${variablesFromSession.company_id}`;
+      const url = SERVER_URL + `/bilty/crossing_outward_in/0?branch_id=${sessionObject.sessionVariables.branch_id}&flag=0&multiple_bilty=1&c_wgt_flag=${myForm.pageState.consider_cwgt}&transporter_id=${myForm.pageState.transporter_id}&fyear=${variablesFromSession.fYear}&companyId=${variablesFromSession.company_id}`;
       // bilty/crossing_outward_in/1276?branch_id=758&flag=0&multiple_bilty=0&c_wgt_flag=0&transporter_id=1292&fyear=22-23&companyId=1      
       let inputData = {
         bilty_no: 0,
@@ -938,14 +937,35 @@ localStorage.removeItem("r");
 
               <div className="form-row">
                 <label id = "crossing-checkbox">
-                  <input type="checkbox"
-                    defaultChecked={crossingChecked}                                
-                    checked={myForm.pageState.consider_cwgt}
-                    onChange={handleChangeCheckbox}                                                             
-                    value={myForm.pageState["consider_cwgt"]}                                
-                  />
                   Consider C.Wgt
                 </label>
+                <select
+                  className="form-input"
+                  type="text"
+                  name="consider_cwgt"
+                  placeholder=""
+                  value={myForm.pageState.consider_cwgt}
+                  onChange={(newValue) => {
+                    myForm.handleChangeForSelect(newValue, "consider_cwgt");
+                  }}
+                  // disabled="disabled"
+                  onKeyPress={(a) => {
+                    
+                    if (a.key == "Enter") {
+                      a.preventDefault();
+                      myForm.makeFocusOnParticularField("auto_fetch");
+                    }
+                  }}
+                  ref={(a) => myForm.storeInputReferenceForSelect(a, "consider_cwgt")}
+                >
+                  <option value="1" key="1">
+                    {" "}
+                    Yes
+                  </option>
+                  <option value="0" key="0">
+                    No
+                  </option>
+                </select>
               </div>
 
           </div>
@@ -995,7 +1015,11 @@ localStorage.removeItem("r");
         <div className="chform-row">
           {/* auto fetch button */}
           
-          <button onClick={fetchDataTemp} disabled={disableButton}>
+          <button 
+          onClick={fetchDataTemp}
+          disabled={disableButton}
+          ref={(a) => myForm.storeInputReferenceForSelect(a, "auto_fetch")}
+          >
               Auto Fetch
             </button>
 
@@ -1243,12 +1267,13 @@ localStorage.removeItem("r");
           )}
           <button
                   onClick={() => {
-                    myForm.setPageState({
-                      ...dataObject,
-                      ...variablesFromSession,
-                    });
-                    window.location.reload();
-                    myForm.setPageMode("write");
+                    // myForm.setPageState({
+                    //   ...dataObject,
+                    //   ...variablesFromSession,
+                    // });
+                    // window.location.reload();
+                    // myForm.setPageMode("write");
+                    console.log('ps', myForm.pageState)
                   }}
                 >
                   New
