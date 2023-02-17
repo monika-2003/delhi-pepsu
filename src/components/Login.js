@@ -7,7 +7,7 @@ import Popup from "reactjs-popup";
 async function loginUser(credentials) {
   
   // https://run.mocky.io/v3/702e0d64-e1eb-4c63-b071-e4ad3e15acfc
-  return fetch("http://117.247.91.8:8000/login/access-token", {
+  return fetch(SERVER_URL+"/login/access-token", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
