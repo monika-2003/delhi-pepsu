@@ -156,6 +156,8 @@ let itemTableItems = [
       { value: "7", label: "Barrel" },
       { value: "8", label: "Drum" },
       { value: "9", label: "Loose" },
+      { value: "10", label: "Bale" },
+      { value: "11", label: "Roll" },
     ],
     placeHolder: "",
     keyboardNavigationMap:{
