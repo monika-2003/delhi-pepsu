@@ -147,6 +147,7 @@ let itemTableItems = [
     name: "packing_type",
     type: "dropdown",
     dropdown_items: [
+      { value: "", label: "" },
       { value: "1", label: "Carton" },
       { value: "2", label: "Cargo" },
       { value: "3", label: "Bag" },

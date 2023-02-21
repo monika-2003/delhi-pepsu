@@ -2249,7 +2249,7 @@ const useForm = (formName, validate, dataObject, apiConfig) => {
                         unit: "C",
                         weight: "",
                         new_row: "N",
-                        packing_type: "1",
+                        packing_type: "",
                         truck_size: "9mt",
                         c_wgt:"",
                     },

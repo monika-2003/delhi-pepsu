@@ -993,7 +993,7 @@ const dataObject = {
       unit: "W",
       weight: "",
       new_row: "N",
-      packing_type: "1",
+      packing_type: "",
     },
   ],
   fyearList: [],

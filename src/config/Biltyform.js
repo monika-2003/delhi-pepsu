@@ -712,7 +712,7 @@ const dataObject = {
       weight: "",
       c_wgt: "",
       new_row: "N",
-      packing_type: "1",
+      packing_type: "",
       truck_size: "9mt",
       rate_info: [],
     },
