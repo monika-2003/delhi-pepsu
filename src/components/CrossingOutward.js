@@ -1144,6 +1144,7 @@ localStorage.removeItem("r");
             pageStateArray={myForm.pageState["bilty_ids"]}
             deleteEntryFromTableCallback={deleteEntryFromTableCallback}
             fieldMapping="bilty_ids"
+            delete_without_popup={1}
           />
         </div>
 

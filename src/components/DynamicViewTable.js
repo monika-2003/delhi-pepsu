@@ -415,6 +415,19 @@ class DynamicViewTable extends React.Component {
                         {this.props.canView && <button onClick={() => this.props.handleViewClick(item)}>
                             Open
                         </button>}
+                        {this.props.delete_without_popup == 1 ? (
+                        <td>
+                          <button
+                            className="item-delete-btn"
+                            onClick={this.handleRemoveSpecificRow(idx)}
+                            // onClick={() => this.enablePopup(idx)}
+                          >
+                            DELETE
+                          </button>
+                        </td>
+                      ) : (
+                        <td></td>
+                      )}
                       {this.props.checkBox == 0 ? (
                         <p />
                       ) : (
