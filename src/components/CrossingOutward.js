@@ -390,6 +390,13 @@ localStorage.removeItem("r");
     return null;
   };
 
+  const getAdditionalInfoForTransporterFetch = () => {
+    let additionalInfoObject = {
+        is_transporter: 1,
+    }
+    return additionalInfoObject;
+}
+
   const checkIfFieldAlreadyExists = (fieldKey, fieldValue, arrayToCheck) => {
     let dummyObject = {};
     for (let i = 0; i < arrayToCheck.length; i++) {
@@ -897,7 +904,7 @@ localStorage.removeItem("r");
               suggestions={myForm.suggestions}
               onSuggestionsFetchRequested={(a) =>
                 myForm.onSuggestionsFetchRequested(a, (b) =>
-                  myForm.suggestionFetchApi(transporterFieldInfo, b)
+                  myForm.suggestionFetchApi(transporterFieldInfo, b,getAdditionalInfoForTransporterFetch())
                 )
               }
               onSuggestionsClearRequested={() =>

@@ -334,7 +334,7 @@ const challanBiltyTableHeader = [
   { label: "Crossing Amount", className: "text-center table-header" },
   { label: "Our Amount", className: "text-center table-header" },
   { label: "No Of Package", className: "text-center table-header" },
-  { label: "Charge Weight", className: "text-center table-header" },
+  { label: "Actual Weight", className: "text-center table-header" },
   { label: "Station From", className: "text-center table-header" },
   { label: "Station To", className: "text-center table-header" },
   { label: "Destination", className: "text-center table-header" },
@@ -404,7 +404,7 @@ const challanBiltyTableItems = [
   },
   {
     type: "text",
-    name: "charge_wgt",
+    name: "actual_weight",
     label: "Charge Weight",
     className: "form-control-small-col",
   },
