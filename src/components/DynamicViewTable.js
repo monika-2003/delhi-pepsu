@@ -399,6 +399,13 @@ class DynamicViewTable extends React.Component {
                     ) : (
                       <th />
                     )}
+                    {
+                      this.props.delete_without_popup == 1 ? (
+                        <th />
+                      ) : (
+                        <></>
+                      )
+                    }
                     {this.props.tableHeader.map((item) => (
                       <th className={item.className} key={item.label}>
                         {item.label}
