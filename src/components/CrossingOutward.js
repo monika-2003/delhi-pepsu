@@ -686,7 +686,7 @@ localStorage.removeItem("r");
 
       for(let i = 0 ; i < table_values.length ; i++) {
         total_transporter_freight += table_values[i].crossing_hire;
-        total_to_pay += parseInt(table_values[i].total_amount);
+        total_to_pay += parseInt(table_values[i].total_amount) || 0;
         total_pkgs += table_values[i].no_of_package;
         total_cweight += table_values[i].charge_wgt;
         total_aweight += table_values[i].actual_weight;
