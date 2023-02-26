@@ -164,6 +164,7 @@ function BiltyReport({ sessionObject }) {
   const [pageCount, setPageCount] = React.useState(0);
   const fetchIdRef = React.useRef(0);
   const download_ref = React.useRef(null);
+  const download_ref1 = React.useRef(null);
   const sortIdRef = React.useRef(0);
   const [dateState, setDateState] = React.useState({
     date_from: new Date(),
@@ -810,6 +811,65 @@ function BiltyReport({ sessionObject }) {
           </button>
           : <div></div> 
           }
+
+          {ReportExcel.station_summary_bilty_report_excel(
+            { columns },
+            { ex_data },
+            { fetchData },
+            { dateState },
+            { loading },
+            { pageCount },
+            { dateState }
+          )}
+
+          <button style={{ display: "none" }}>
+            <ReactHTMLTableToExcel
+              id="test-table-xls-button"
+              className="download-table-xls-button"
+              table="station_summary_bilty_report_excel"
+              filename="tablexls"
+              sheet="tablexls"
+              buttonText="Download as XLS"
+              ref={(a) => (download_ref1.current = a)}
+            />
+          </button>
+          <button
+            className="download-table-xls-button"
+            onClick={async () => {
+              setLoading(true);
+              let dataToSend = {
+                date_dict: finalInput.date_dict,
+                filter_fields: finalInput.filter_fields,
+              };
+              let url = SERVER_URL + "/report/";
+
+              if(dateState.report_type == "inward" || dateState["report_type"] == "admin-inward") {
+                  url += "inward";
+              }
+
+              let resp = await fetch(url, {
+                method: "POST",
+                headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(dataToSend),
+              });
+              let response = await resp.json();
+
+
+              if (response["data"] && "total_rows" in response) {
+                console.log(response["data"], "fsdfafsfds");
+                // setData(response["data"]);
+                ex_data = response["data"];
+                // setPageCount(Math.ceil(response["total_rows"] / pageSize));
+              }
+              setLoading(false);
+              download_ref1.current.handleDownload();
+            }}
+          >
+            Station Summary Excel
+          </button>
 
           {ReportExcel.excel_data(
             { columns },

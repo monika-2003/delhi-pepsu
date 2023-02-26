@@ -2121,6 +2121,45 @@ const admin_report_excel_data = [
     // },
 ];
 
+
+const station_summary_bilty_report_data = [
+    {
+        Header: "Station Name",
+        accessor: "station_to_name",
+        width: "90px",
+        minWidth: "90px",
+        canFilter: true,
+    },
+    {
+        Header: "Total Bilties",
+        accessor: "total_bilty",
+        width: "120px",
+        minWidth: "120px",
+        canFilter: true,
+    },
+    {
+        Header: "Total Packages",
+        accessor: "total_packages",
+        canFilter: true,
+        width: "50px",
+        minWidth: "50px",
+    },
+    {
+        Header: "Total Weight",
+        accessor: "total_weight",
+        canFilter: true,
+        width: "50px",
+        minWidth: "50px",
+    },
+    {
+        Header: "Total Amount",
+        accessor: "total_amount",
+        canFilter: true,
+        width: "70px",
+        minWidth: "50px",
+    },
+];
+
 const admin_print_excel_data = [
     {
         Header: "Sr No",
@@ -6201,6 +6240,146 @@ function admin_bilty_report_excel_data(
     );
 }
 
+function station_summary_bilty_report_excel(
+    columns,
+    data,
+    fetchData,
+    dateObject,
+    loading,
+    pageCount,
+    dateState
+) {
+    //   for (let col in data) {
+    // excel_rep_data = data;
+    // console.log("sddsdsds", dateState["dateState"].date_from);
+    let newDate = new Date();
+    let to_pay_total = 0;
+    let paid_total = 0;
+    let newData = [];
+    let stationWiseTotalObject = {}
+    // excel_rep_data = data["data"];
+    let temp_station_to_name = ""
+    for (let i = 0; i < data["ex_data"].length; i++) {
+        // console.log("cellll", data["data"][i], data["data"][i]["pay_type_name"]);
+        console.log("temp print", data["ex_data"][i])
+        if (! "station_from_name" in data["ex_data"][i]){
+            continue
+        }
+        temp_station_to_name = data["ex_data"][i]["station_from_name"]
+        if (! (temp_station_to_name in stationWiseTotalObject)){
+            stationWiseTotalObject[temp_station_to_name] = {
+                station_to_name : temp_station_to_name,
+                total_bilty : 0,
+                total_packages: 0,
+                total_weight : 0,
+                total_amount: 0,
+            }
+        }
+        stationWiseTotalObject[temp_station_to_name].total_bilty += 1
+        if ("pkgs" in data["ex_data"][i]){
+            stationWiseTotalObject[temp_station_to_name].total_packages += parseInt(data["ex_data"][i]["pkgs"]) || 0
+        }
+        if ("total_amount" in data["ex_data"][i]){
+            stationWiseTotalObject[temp_station_to_name].total_amount += parseFloat(data["ex_data"][i]["total_amount"]) || 0
+        }
+        if ("charge_wgt" in data["ex_data"][i]){
+            stationWiseTotalObject[temp_station_to_name].total_weight += parseInt(data["ex_data"][i]["charge_wgt"]) || 0
+        }
+    }
+
+    for (let key in stationWiseTotalObject){
+        newData.push(stationWiseTotalObject[key])
+    }
+
+    return (
+        <table style={{ display: "none" }} id="station_summary_bilty_report_excel">
+            <thead>
+                <tr>
+                    <th colSpan="12" align="center" style={{ fontSize: "150%" }}>
+                        {TRANSPORTER_NAME}{" ("}
+                        {JSON.parse(sessionStorage.getItem("branch_name"))[
+                            "branch_name"
+                        ].toUpperCase()}
+                        {")"}
+                    </th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colSpan="4" align="left" style={{ whiteSpace: "nowrap" }}>
+                        BILTY REPORT {"  "} FROM:
+                        {String(dateState["dateState"].date_from.getUTCDate()) +
+                            "/" +
+                            String(dateState["dateState"].date_from.getUTCMonth() + 1) +
+                            "/" +
+                            String(dateState["dateState"].date_from.getUTCFullYear())}
+                        {"  "}
+                        TO:
+                        {String(dateState["dateState"].date_to.getUTCDate()) +
+                            "/" +
+                            String(dateState["dateState"].date_to.getUTCMonth() + 1) +
+                            "/" +
+                            String(dateState["dateState"].date_to.getUTCFullYear())}
+                        )
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    {station_summary_bilty_report_data.map((column) => (
+                        <td
+                            align="left"
+                            style={{
+                                width: column.width,
+                                whiteSpace: "nowrap",
+                                borderStyle: "solid",
+                            }}
+                        >
+                            {column.Header}
+                        </td>
+                    ))}
+                </tr>
+            </thead>
+            <tbody>
+                {newData.map((cell) => (
+                    <tr>
+                        {station_summary_bilty_report_data.map((column) => (
+                            <td
+                                align="left"
+                                style={{ whiteSpace: "nowrap", borderStyle: "solid" }}
+                            >
+                                {cell[column.accessor]}
+                            </td>
+                        ))}
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    );
+}
+
 function vehicle_register_excel(
     columns,
     data,
@@ -9245,4 +9424,5 @@ export default {
     excel_fleet_report_data,
     fleet_vehicle_trip_data,
     excel_vehicle_report_data,
+    station_summary_bilty_report_excel,
 };
