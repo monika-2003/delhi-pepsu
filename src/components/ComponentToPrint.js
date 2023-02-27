@@ -20,18 +20,22 @@ class ComponentToPrint extends React.Component {
                 <div id="consign-details">
                   <div id="consign-details1">
                     <label id="consignor">
-                      {this.props.fields.consignor_name.toUpperCase()}
+                      {this.props.fields.consignor_name == null?
+                        this.props.fields.consignor_name:this.props.fields.consignor_name.toUpperCase()}
                     </label>
                     <label id="consignorGst">
-                      {this.props.fields.consignor_gst.toUpperCase()}
+                      {this.props.fields.consignor_gst == null?
+                        this.props.fields.consignor_gst:this.props.fields.consignor_gst.toUpperCase()}
                     </label>   
                   </div>
                   <div id="consign-details2">
                   <label id="consignee">
-                      {this.props.fields.consignee_name.toUpperCase()}
+                      {this.props.fields.consignee_name == null?
+                        this.props.fields.consignee_name:this.props.fields.consignee_name.toUpperCase()}
                     </label>
                     <label id="consigneeGst">
-                      {this.props.fields.consignee_gst.toUpperCase()}
+                      {this.props.fields.consignee_gst == null?
+                        this.props.fields.consignee_gst:this.props.fields.consignee_gst.toUpperCase()}
                     </label>
                   </div>
                 </div>
@@ -179,18 +183,22 @@ class ComponentToPrint extends React.Component {
                 <div id="consign-details">
                   <div id="consign-details1">
                     <label id="consignor">
-                      {this.props.fields.consignor_name.toUpperCase()}
+                    {this.props.fields.consignor_name == null?
+                        this.props.fields.consignor_name:this.props.fields.consignor_name.toUpperCase()}
                     </label>
                     <label id="consignorGst">
-                      {this.props.fields.consignor_gst.toUpperCase()}
+                      {this.props.fields.consignor_gst == null?
+                        this.props.fields.consignor_gst:this.props.fields.consignor_gst.toUpperCase()}
                     </label>   
                   </div>
                   <div id="consign-details2">
                   <label id="consignee">
-                      {this.props.fields.consignee_name.toUpperCase()}
+                      {this.props.fields.consignee_name == null?
+                        this.props.fields.consignee_name:this.props.fields.consignee_name.toUpperCase()}
                     </label>
                     <label id="consigneeGst">
-                      {this.props.fields.consignee_gst.toUpperCase()}
+                      {this.props.fields.consignee_gst == null?
+                        this.props.fields.consignee_gst:this.props.fields.consignee_gst.toUpperCase()}
                     </label>
                   </div>
                 </div>
@@ -337,18 +345,23 @@ class ComponentToPrint extends React.Component {
                 <div id="consign-details">
                   <div id="consign-details1">
                     <label id="consignor">
-                      {this.props.fields.consignor_name.toUpperCase()}
+                    {this.props.fields.consignor_name == null?
+                        this.props.fields.consignor_name:this.props.fields.consignor_name.toUpperCase()}
                     </label>
                     <label id="consignorGst">
-                      {this.props.fields.consignor_gst.toUpperCase()}
+                    {this.props.fields.consignor_gst == null?
+                        this.props.fields.consignor_gst:this.props.fields.consignor_gst.toUpperCase()}
                     </label>   
                   </div>
                   <div id="consign-details2">
                   <label id="consignee">
-                      {this.props.fields.consignee_name.toUpperCase()}
+                  {this.props.fields.consignee_name == null?
+                        this.props.fields.consignee_name:this.props.fields.consignee_name.toUpperCase()}
                     </label>
                     <label id="consigneeGst">
-                      {this.props.fields.consignee_gst.toUpperCase()}
+                    {this.props.fields.consignee_gst == null?
+                        this.props.fields.consignee_gst:this.props.fields.consignee_gst.toUpperCase()}
+                      
                     </label>
                   </div>
                 </div>
