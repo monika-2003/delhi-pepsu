@@ -2124,7 +2124,14 @@ const admin_report_excel_data = [
 
 const station_summary_bilty_report_data = [
     {
-        Header: "Station Name",
+        Header: "Station From",
+        accessor: "station_from_name",
+        width: "90px",
+        minWidth: "90px",
+        canFilter: true,
+    },
+    {
+        Header: "Station To",
         accessor: "station_to_name",
         width: "90px",
         minWidth: "90px",
@@ -6259,36 +6266,61 @@ function station_summary_bilty_report_excel(
     let stationWiseTotalObject = {}
     // excel_rep_data = data["data"];
     let temp_station_to_name = ""
+    let temp_station_from_name = ""
     for (let i = 0; i < data["ex_data"].length; i++) {
-        // console.log("cellll", data["data"][i], data["data"][i]["pay_type_name"]);
-        console.log("temp print", data["ex_data"][i])
         if (! "station_from_name" in data["ex_data"][i]){
             continue
         }
+        if (! "station_to_name" in data["ex_data"][i]){
+            continue
+        }
         temp_station_to_name = data["ex_data"][i]["station_from_name"]
-        if (! (temp_station_to_name in stationWiseTotalObject)){
-            stationWiseTotalObject[temp_station_to_name] = {
-                station_to_name : temp_station_to_name,
+        temp_station_from_name = data["ex_data"][i]["station_to_name"]
+        if (! (temp_station_from_name in stationWiseTotalObject)){
+            stationWiseTotalObject[temp_station_from_name] = {}
+        }
+        if (! (temp_station_to_name in stationWiseTotalObject[temp_station_from_name])){
+            stationWiseTotalObject[temp_station_from_name][temp_station_to_name] = {
+                station_from_name: temp_station_from_name,
+                station_to_name: temp_station_to_name,
                 total_bilty : 0,
                 total_packages: 0,
                 total_weight : 0,
                 total_amount: 0,
             }
         }
-        stationWiseTotalObject[temp_station_to_name].total_bilty += 1
+        stationWiseTotalObject[temp_station_from_name][temp_station_to_name].total_bilty += 1
         if ("pkgs" in data["ex_data"][i]){
-            stationWiseTotalObject[temp_station_to_name].total_packages += parseInt(data["ex_data"][i]["pkgs"]) || 0
+            stationWiseTotalObject[temp_station_from_name][temp_station_to_name].total_packages += parseInt(data["ex_data"][i]["pkgs"]) || 0
         }
         if ("total_amount" in data["ex_data"][i]){
-            stationWiseTotalObject[temp_station_to_name].total_amount += parseFloat(data["ex_data"][i]["total_amount"]) || 0
+            stationWiseTotalObject[temp_station_from_name][temp_station_to_name].total_amount += parseFloat(data["ex_data"][i]["total_amount"]) || 0
         }
         if ("charge_wgt" in data["ex_data"][i]){
-            stationWiseTotalObject[temp_station_to_name].total_weight += parseInt(data["ex_data"][i]["charge_wgt"]) || 0
+            stationWiseTotalObject[temp_station_from_name][temp_station_to_name].total_weight += parseInt(data["ex_data"][i]["charge_wgt"]) || 0
         }
     }
 
+    let tempTotal = {}
+    let loopObject = {}
     for (let key in stationWiseTotalObject){
-        newData.push(stationWiseTotalObject[key])
+        tempTotal={
+            station_from_name: "Total",
+            station_to_name: "",
+            total_bilty : 0,
+            total_packages: 0,
+            total_weight : 0,
+            total_amount: 0,
+        }
+        for (let key2 in stationWiseTotalObject[key]){
+            loopObject = stationWiseTotalObject[key][key2]
+            newData.push(loopObject)
+            tempTotal.total_bilty += loopObject.total_bilty
+            tempTotal.total_packages += loopObject.total_packages
+            tempTotal.total_weight += loopObject.total_weight
+            tempTotal.total_amount += loopObject.total_amount
+        }
+        newData.push(tempTotal)
     }
 
     return (
