@@ -1242,7 +1242,7 @@ const dataObject = {
   //for group-5
   labour:"",
   labour_calculation:"",
-  other_charge:"",
+  other_charge:"0",
   cash_received_by_driver:0,
   gross_amount:"",  
   // tds_amount:"",
