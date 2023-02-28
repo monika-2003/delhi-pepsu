@@ -113,7 +113,7 @@ const groupInfo = {
       name: "demarage_charge",
       type: "text",
       placeHolder: "",
-      url: SERVER_URL + "/consignor/",
+      // url: SERVER_URL + "/consignor/",
       suggestionKeyword: "name",
       suggestionFrontendResponseMap: {
         name: "Demarage Charge",
@@ -137,7 +137,7 @@ const groupInfo = {
       name: "other_charge",
       type: "text",
       placeHolder: "",
-      url: SERVER_URL + "/consignor/",
+      // url: SERVER_URL + "/consignor/",
       suggestionKeyword: "gst_no",
       suggestionFrontendResponseMap: {
         name: "Demurrage Charge",
@@ -161,7 +161,7 @@ const groupInfo = {
       name: "refund",
       type: "text",
       placeHolder: "",
-      url: SERVER_URL + "/consignee/",
+      // url: SERVER_URL + "/consignee/",
       suggestionKeyword: "name",
       suggestionFrontendResponseMap: {
         name: "Refund",
