@@ -327,12 +327,12 @@ function BiltyReport({ sessionObject }) {
             newObject.owned_by = String(
               sessionObject.sessionVariables.branch_id
             )        
-            newObject.challan_no = null;
+            // newObject.challan_no = null;
             newObject.crossing_outward = null;
             newObject.mr_no = null;
           }
           else if(dateObject.in_stock == "2" && dateObject.all_branch=="Y"){
-            newObject.challan_no = null;
+            // newObject.challan_no = null;
             newObject.crossing_outward = null;
             newObject.mr_no = null;
           }
