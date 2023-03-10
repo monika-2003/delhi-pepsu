@@ -2411,22 +2411,26 @@ const useForm = (formName, validate, dataObject, apiConfig) => {
                 ];
                 delete resp.suffix;
                 let idClearanceDummy = {};
-                if ("consignor_name" in resp) {
-                    idClearanceDummy.consignor_name = {
-                        value: resp.consignor_name,
-                        fieldToClear: "consignor_id",
-                    };
-                }
-                if ("consignor_gst" in resp) {
-                    idClearanceDummy.consignor_gst = {
-                        value: resp.consignor_gst,
-                        fieldToClear: "consignor_id",
-                    };
-                }
+                // if ("consignor_name" in resp) {
+                //     idClearanceDummy.consignor_name = {
+                //         value: resp.consignor_name,
+                //         fieldToClear: "consignor_id",
+                //     };
+                // }
+                // if ("consignor_gst" in resp) {
+                //     idClearanceDummy.consignor_gst = {
+                //         value: resp.consignor_gst,
+                //         fieldToClear: "consignor_id",
+                //     };
+                // }
                 setIdClearancState({
                     ...idClearancState,
                     ...idClearanceDummy,
                 });
+                delete resp.consignor_id
+                delete resp.consignor_name
+                delete resp.consignor_gst
+                delete resp.pay_type
                 setPageState(oldState => ({...oldState, ...resp}));
             }
         }
