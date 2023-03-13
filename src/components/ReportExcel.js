@@ -2131,6 +2131,34 @@ const station_summary_bilty_report_data = [
         canFilter: true,
     },
     {
+        Header: "Bilty No",
+        accessor: "bilty_no",
+        width: "120px",
+        minWidth: "120px",
+        canFilter: true,
+    },
+    {
+        Header: "Bilty Date",
+        accessor: "bilty_date",
+        width: "120px",
+        minWidth: "120px",
+        canFilter: true,
+    },
+    {
+        Header: "Packages",
+        accessor: "pkgs",
+        canFilter: true,
+        width: "50px",
+        minWidth: "50px",
+    },
+    {
+        Header: "Weight",
+        accessor: "charge_wgt",
+        canFilter: true,
+        width: "50px",
+        minWidth: "50px",
+    },
+    {
         Header: "Station To",
         accessor: "station_to_name",
         width: "90px",
@@ -2138,29 +2166,15 @@ const station_summary_bilty_report_data = [
         canFilter: true,
     },
     {
-        Header: "Total Bilties",
-        accessor: "total_bilty",
-        width: "120px",
-        minWidth: "120px",
-        canFilter: true,
-    },
-    {
-        Header: "Total Packages",
-        accessor: "total_packages",
-        canFilter: true,
-        width: "50px",
-        minWidth: "50px",
-    },
-    {
-        Header: "Total Weight",
-        accessor: "total_weight",
-        canFilter: true,
-        width: "50px",
-        minWidth: "50px",
-    },
-    {
-        Header: "Total Amount",
+        Header: "Amount",
         accessor: "total_amount",
+        canFilter: true,
+        width: "70px",
+        minWidth: "50px",
+    },
+    {
+        Header: "Private marka",
+        accessor: "private_marka_no",
         canFilter: true,
         width: "70px",
         minWidth: "50px",
@@ -6274,53 +6288,49 @@ function station_summary_bilty_report_excel(
         if (! "station_to_name" in data["ex_data"][i]){
             continue
         }
-        temp_station_to_name = data["ex_data"][i]["station_from_name"]
-        temp_station_from_name = data["ex_data"][i]["station_to_name"]
+        temp_station_from_name = data["ex_data"][i]["station_from_name"]
         if (! (temp_station_from_name in stationWiseTotalObject)){
-            stationWiseTotalObject[temp_station_from_name] = {}
-        }
-        if (! (temp_station_to_name in stationWiseTotalObject[temp_station_from_name])){
-            stationWiseTotalObject[temp_station_from_name][temp_station_to_name] = {
-                station_from_name: temp_station_from_name,
-                station_to_name: temp_station_to_name,
+            stationWiseTotalObject[temp_station_from_name] = {
                 total_bilty : 0,
                 total_packages: 0,
                 total_weight : 0,
                 total_amount: 0,
+                data: []
             }
         }
-        stationWiseTotalObject[temp_station_from_name][temp_station_to_name].total_bilty += 1
+        stationWiseTotalObject[temp_station_from_name].total_bilty += 1
         if ("pkgs" in data["ex_data"][i]){
-            stationWiseTotalObject[temp_station_from_name][temp_station_to_name].total_packages += parseInt(data["ex_data"][i]["pkgs"]) || 0
+            stationWiseTotalObject[temp_station_from_name].total_packages += parseInt(data["ex_data"][i]["pkgs"]) || 0
         }
         if ("total_amount" in data["ex_data"][i]){
-            stationWiseTotalObject[temp_station_from_name][temp_station_to_name].total_amount += parseFloat(data["ex_data"][i]["total_amount"]) || 0
+            stationWiseTotalObject[temp_station_from_name].total_amount += parseFloat(data["ex_data"][i]["total_amount"]) || 0
         }
         if ("charge_wgt" in data["ex_data"][i]){
-            stationWiseTotalObject[temp_station_from_name][temp_station_to_name].total_weight += parseInt(data["ex_data"][i]["charge_wgt"]) || 0
+            stationWiseTotalObject[temp_station_from_name].total_weight += parseInt(data["ex_data"][i]["charge_wgt"]) || 0
         }
+        stationWiseTotalObject[temp_station_from_name].data.push(data["ex_data"][i])
     }
 
     let tempTotal = {}
     let loopObject = {}
     for (let key in stationWiseTotalObject){
+        newData.push({
+            "bilty_no": "From Station:-",
+            "bilty_date": key,
+        })
+        for (let j=0; j<stationWiseTotalObject[key].data.length;j++){
+            loopObject = stationWiseTotalObject[key].data[j]
+            newData.push(loopObject)
+        }
         tempTotal={
             station_from_name: "Total",
-            station_to_name: "",
-            total_bilty : 0,
-            total_packages: 0,
-            total_weight : 0,
-            total_amount: 0,
-        }
-        for (let key2 in stationWiseTotalObject[key]){
-            loopObject = stationWiseTotalObject[key][key2]
-            newData.push(loopObject)
-            tempTotal.total_bilty += loopObject.total_bilty
-            tempTotal.total_packages += loopObject.total_packages
-            tempTotal.total_weight += loopObject.total_weight
-            tempTotal.total_amount += loopObject.total_amount
+            bilty_no : stationWiseTotalObject[key].total_bilty,
+            pkgs: stationWiseTotalObject[key].total_packages,
+            charge_wgt : stationWiseTotalObject[key].total_weight,
+            amount: stationWiseTotalObject[key].total_amount,
         }
         newData.push(tempTotal)
+        
     }
 
     return (
