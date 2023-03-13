@@ -53,6 +53,11 @@ const ReportTable = React.forwardRef(({
         fyear: fYear_fetch,
     });
 
+    const [multiStationObject, setMultiStationObject] = React.useState({
+        multi_to_station : [],
+        multi_from_station : []
+    });
+
 
     const [highlightRow, setHighlightRow] = React.useState([]);
 
@@ -137,6 +142,7 @@ const ReportTable = React.forwardRef(({
 
     const updateFilters2 = (e, name) => {
         let multi_station = []
+        console.log("values_inisde", e)
 
         let value;
         for (let i = 0; i < e.length; i++) {
@@ -147,13 +153,50 @@ const ReportTable = React.forwardRef(({
         console.log("MULTI", multi_station);
 
         if (name == "station_to_name") {
-            setCustomFilters({ ...customFilters, multi_to_station: multi_station })
+            setMultiStationObject({ ...multiStationObject, multi_to_station: multi_station })
         }
         if (name == "station_from_name") {
-            setCustomFilters({ ...customFilters, multi_from_station: multi_station })
+            setMultiStationObject({ ...multiStationObject, multi_from_station: multi_station })
+        }
+
+        // gotoPage(0)
+    }
+
+    const applyMultiStationFilter = (name) => {
+
+        if (name == "station_to_name") {
+            setCustomFilters({ ...customFilters, multi_to_station: multiStationObject.multi_to_station })
+        }
+        if (name == "station_from_name") {
+            setCustomFilters({ ...customFilters, multi_from_station: multiStationObject.multi_from_station })
         }
 
         gotoPage(0)
+    }
+
+    function arraysEqual(a1,a2) {
+        /* WARNING: arrays must not contain {objects} or behavior may be undefined */
+        return JSON.stringify(a1)==JSON.stringify(a2);
+    }
+
+    const renderGoButton = (columnName)=>{
+        console.log("rendergo", columnName, customFilters, multiStationObject)
+        if (columnName == "station_from_name"){
+            return (!arraysEqual(customFilters.multi_from_station, multiStationObject.multi_from_station)) ?
+            <button onClick={()=>applyMultiStationFilter("station_from_name")}>
+            Go
+            </button>
+            :
+            <></>
+        }
+        else{
+            return (!arraysEqual(customFilters.multi_to_station, multiStationObject.multi_to_station)) ?
+            <button onClick={()=>applyMultiStationFilter("station_to_name")}>
+            Go
+            </button>
+            :
+            <></>
+        }
     }
 
     const componentRef = useRef();
@@ -237,7 +280,11 @@ const ReportTable = React.forwardRef(({
                                             </span>
 
                                             {(column.id == "station_to_name" || column.id == "station_from_name") && (dateObject.report_type == "bilty" || dateObject.report_type == "inward") ?
-                                                <Multiselect
+                                                <div>
+                                                    {renderGoButton(column.id)
+                                                    }
+
+                                                    <Multiselect
                                                     isObject={false}
                                                     options={column.id == "station_to_name" ? toStation.map((branch) => branch) : fromstation.map((branch) => branch)}
                                                     onRemove={(e) => { updateFilters2(e, column.id) }}
@@ -246,7 +293,9 @@ const ReportTable = React.forwardRef(({
                                                     placeholder={`Select records...`}
                                                     showCheckbox
                                                     style={{ width: column.width, minWidth: column.minWidth }}
-                                                /> :
+                                                    />
+                                                </div>
+                                                :
                                                 <div>
                                                     {<input
                                                         name={column.id}
